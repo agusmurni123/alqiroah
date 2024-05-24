@@ -1,0 +1,78 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'ikon/fontawesome-free-6.4.2-web/css/all.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Baca</title>
+</head>
+<style>
+    .liked{
+        color: red;
+    }
+</style>
+<body>
+    <a class="ml-3 bg-blue-400 p-1 text-white rounded" href="{% url 'redaksi:beranda' %}">Kembali</a>
+    <ul>
+        <li><img class="mx-auto" src="{{object.gambar.url}}" alt="" width="300px" height="300px"></li>
+        <li class="text-center font-bold">{{object.judul}}</li>
+        <ul class="subjudul flex justify-evenly mb-10 mt-5">
+            <li>
+                <i class="fas fa-user"></i>
+                {{object.penulis}}
+            </li>
+            <li>
+                <i class="fas fa-newspaper"></i>
+                {{object.kategori}}
+            </li>
+            <ul class="flex">
+                <li><i class="fas fa-heart"></i></li>
+                <li><div class="like font-bold">{{object.likes}}</div></li>
+                <li><p>Likes</p></li>
+            </ul>
+        </ul>
+        <li class="ml-3 mr-3">{{object.paragraf}}</li>
+        
+        {% for redaksi in object_list %}
+        {{redaksi.judul}}
+        {% endfor %}
+    </ul>
+    <script>
+        const likeIkon= document.querySelector('.fa-heart');
+        const hasilLike = document.querySelector('.like');
+        let count = 0;
+
+likeIkon.addEventListener('click',function(){
+
+    const postID = "{{object.id}}";
+
+    fetch(`/like_post/?post_id=${postID}`)
+    .then(response => response.json())
+    .then(data => {
+            if (data.success) {
+                if(likeIkon.classList.contains('liked')){
+                    likeIkon.classList.remove('liked');
+                    count = 0;
+                } else{
+                    likeIkon.classList.add('liked');
+                    count = data.likes;
+                }
+
+                hasilLike.innerHTML= count;
+            } else{
+                console.error('gagal like post:',data.error);
+            }
+        })
+        .catch(error =>{
+        console.error('Error liking post:',error);
+        });
+    });
+    
+    </script>
+</body>
+</html>
+{% endblock %}

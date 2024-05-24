@@ -1,0 +1,421 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>staff</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'ikon/fontawesome-free-6.4.2-web/css/all.css' %}">
+    <style>
+        .menuaktive{
+            display: block;
+        }
+    </style>
+</head>
+<body class="h-screen">
+    <!-- header -->
+    <div class="flex flex-col sm:flex-row justify-between items-center">
+        <h1 class=" text-blue-700 font-bold flex justify-between sm:justify-center items-center w-full sm:w-1/2">
+            <i class="text-red-500 p-2 text-lg">
+                Lentera <b class="text-gray-900">Al-Qiroah</b><br>
+                <p class="text-xs text-gray-400">Hidayatullah Tegal official Blog Management</p>
+            </i>
+            <div class="mr-3 block sm:hidden bg-red-500 rounded text-white pr-3 pl-3"><i class="fas fa-bars"></i></div>
+        </h1>
+        <img class="w-full sm:w-2/5 h-20" src="{% static 'gmb/3.png' %}" alt="">
+    </div>
+
+    <!-- nav -->
+    <div class="menu w-full mx-auto mb-2 border-t-2 border-blue-500 hidden sm:block">
+        <nav class="bg-black w-full pl-3 text-white font-bold">
+            <ul class="flex flex-col sm:flex-row justify-start">
+                <li class="fas fa-home mr-3 text-lg"></li>
+                <li class="mr-3">Sport</li>
+                <li class="mr-3">Politik</li>
+                <li class="mr-3">Health</li>
+                <li class="mr-3">Teknologi</li>
+                <li class="mr-3">Sains</li>
+                <li class="mr-3">Fashion</li>
+                <li class="mr-3"><a href="{% url 'redaksi:beranda' %}">Beranda</a></li>
+                <li class="bg-red-700 pr-1 pl-1"><a href="{% url 'redaksi:tambah' %}"><i class="fas fa-pen"></i> Tulis Post</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- post teratas -->
+    <div class="w-full sm:w-4/5 mx-auto mb-2 border-b-2 border-green-500 mt-5 sm:mt-0">
+        <h2 class="bg-green-500 w-40 pl-3 text-white font-bold">Post Teratas</h2>
+    </div>
+    <section class="flex flex-col sm:flex-row w-full h-full sm:h-2/3 mb-5 justify-center">
+        <div class="primer w-full sm:w-2/5 h-full bg-blue-400 overflow-hidden mr-2">
+            {% for redaksi in object_list %}
+            <a class="w-1/2" href="{% url 'redaksi:detail' redaksi.slug %}">
+                <ul class="flex flex-col w-full h-full bg-gray-20 mb-2 border-b relative">
+                        <img src="{{redaksi.gambar.url}}" alt="" class=" h-full object-cover filter brightness-50" width="100%">
+                        <ul class="ml-3 w-full text-white absolute bottom-0 left-20">
+                            <li class="mb-5">{{redaksi.judul}}</li>
+                            <ul class="flex w-full mb-2">
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                                <li class="mr-2 pl-1 pr-1 text-xs flex justify-center items-center">
+                                    <i class="fas fa-heart mr-1"></i>
+                                    <div class="hasil">0</div>
+                                </li>
+                                <li class="mr-2 pl-1 pr-1 text-xs flex justify-center items-center">
+                                    <i class="fas fa-comment mr-1"></i>
+                                    <div class="hasil">0</div>
+                                </li>
+                                <li class="mr-2 pl-1 pr-1 text-xs flex justify-center items-center">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    <div class="hasil">0</div>
+                                </li>
+                            </ul>
+                        </ul>
+                </ul>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="sekunder flex w-full sm:w-2/5 h-full">
+            <div class="tersier-1 w-1/2 h-full bg-green-300 mr-0.5 sm:mr-2">
+                <div class="tersier-1a w-full h-1/2 bg-green-200 overflow-hidden">
+                    {% for redaksi in object_list %}
+                    {% if redaksi.kategori == 'berita' %}
+                    <a class="w-1/2" href="{% url 'redaksi:detail' redaksi.slug %}">
+                        <ul class="flex flex-col w-full h-full bg-gray-20 mb-2 border-b relative">
+                                <img src="{{redaksi.gambar.url}}" alt="" class="h-full object-cover filter brightness-50" width="100%">
+                                <ul class="ml-3 w-full text-white absolute bottom-0">
+                                    <li class="mb-5 text-sm">{{redaksi.judul}}</li>
+                                    <ul class="flex flex-col sm:flex-row w-full mb-2">
+                                        <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                                        <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                                        <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                                    </ul>
+                                </ul>
+                                <ul class="absolute text-white right-0 top-10">
+                                    <li class="mr-2 pl-1 pr-1 text-lg flex justify-center items-center">
+                                        <i class="far fa-heart mr-2"></i>
+                                        <div class="hasil">0</div>
+                                    </li>
+                                    <li class="mr-2 pl-1 pr-1 text-lg flex justify-center items-center">
+                                        <i class="far fa-comment mr-2"></i>
+                                        <div class="hasil">0</div>
+                                    </li>
+                                    <li class="mr-2 pl-1 pr-1 text-lg flex justify-center items-center">
+                                        <i class="far fa-eye mr-2"></i>
+                                        <div class="hasil">0</div>
+                                    </li>
+                                </ul>
+                        </ul>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="tersier-1b w-full h-1/2 bg-green-300 overflow-hidden">
+                    {% for redaksi in object_list %}
+                    {% if redaksi.kategori == 'feature' %}
+                    <a class="w-1/2" href="{% url 'redaksi:detail' redaksi.slug %}">
+                        <ul class="flex flex-col w-full h-full bg-gray-20 mb-2 border-b relative">
+                                <img src="{{redaksi.gambar.url}}" alt="" class=" h-full object-cover filter brightness-50" width="100%">
+                                <ul class="ml-3 w-full text-white absolute bottom-0">
+                                    <li class="mb-5 text-sm">{{redaksi.judul}}</li>
+                                    <ul class="flex flex-col sm:flex-row mb-2">
+                                        <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                                        <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                                        <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                                    </ul>
+                                </ul>
+                                <ul class="absolute text-white right-0 top-10">
+                                    <li class="mr-2 pl-1 pr-1 text-lg flex justify-center items-center">
+                                        <i class="far fa-heart mr-2"></i>
+                                        <div class="hasil">0</div>
+                                    </li>
+                                    <li class="mr-2 pl-1 pr-1 text-lg flex justify-center items-center">
+                                        <i class="far fa-comment mr-2"></i>
+                                        <div class="hasil">0</div>
+                                    </li>
+                                    <li class="mr-2 pl-1 pr-1 text-lg flex justify-center items-center">
+                                        <i class="far fa-eye mr-2"></i>
+                                        <div class="hasil">0</div>
+                                    </li>
+                                </ul>
+                        </ul>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tersier-2 w-1/2 h-full bg-green-200">
+                <div class="tersier-1a w-full h-1/2 bg-green-300 overflow-hidden">
+                    {% for redaksi in object_list %}
+                    {% if redaksi.kategori == 'opini' %}
+                    <a class="w-1/2" href="{% url 'redaksi:detail' redaksi.slug %}">
+                        <ul class="flex flex-col w-full h-full bg-gray-20 mb-2 border-b relative">
+                                <img src="{{redaksi.gambar.url}}" alt="" class=" h-full object-cover filter brightness-50" width="100%">
+                                <ul class="ml-3 w-full text-white absolute bottom-0">
+                                    <li class="mb-5 text-sm">{{redaksi.judul}}</li>
+                                    <ul class="flex flex-col sm:flex-row w-full mb-2">
+                                        <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                                        <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                                        <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                                    </ul>
+                                </ul>
+                                <ul class="absolute text-white right-0 top-10">
+                                    <li class="mr-2 pl-1 pr-1 text-lg flex justify-center items-center">
+                                        <i class="far fa-heart mr-2"></i>
+                                        <div class="hasil">0</div>
+                                    </li>
+                                    <li class="mr-2 pl-1 pr-1 text-lg flex justify-center items-center">
+                                        <i class="far fa-comment mr-2"></i>
+                                        <div class="hasil">0</div>
+                                    </li>
+                                    <li class="mr-2 pl-1 pr-1 text-lg flex justify-center items-center">
+                                        <i class="far fa-eye mr-2"></i>
+                                        <div class="hasil">0</div>
+                                    </li>
+                                </ul>
+                        </ul>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="tersier-1b w-full h-1/2 bg-green-200 overflow-hidden">
+                    {% for redaksi in object_list %}
+                    {% if redaksi.kategori == 'artikel' %}
+                    <a class="w-1/2" href="{% url 'redaksi:detail' redaksi.slug %}">
+                        <ul class="flex flex-col w-full h-full bg-gray-20 mb-2 border-b relative">
+                                <img src="{{redaksi.gambar.url}}" alt="" class=" h-full object-cover filter brightness-50" width="100%">
+                                <ul class="ml-3 w-full text-white absolute bottom-0">
+                                    <li class="mb-5 text-sm">{{redaksi.judul}}</li>
+                                    <ul class="flex  flex-col sm:flex-row w-full mb-2">
+                                        <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                                        <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                                        <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                                    </ul>
+                                </ul>
+                                <ul class="absolute text-white right-0 top-10">
+                                    <li class="mr-2 pl-1 pr-1 text-lg flex justify-center items-center">
+                                        <i class="far fa-heart mr-2"></i>
+                                        <div class="hasil">0</div>
+                                    </li>
+                                    <li class="mr-2 pl-1 pr-1 text-lg flex justify-center items-center">
+                                        <i class="far fa-comment mr-2"></i>
+                                        <div class="hasil">0</div>
+                                    </li>
+                                    <li class="mr-2 pl-1 pr-1 text-lg flex justify-center items-center">
+                                        <i class="far fa-eye mr-2"></i>
+                                        <div class="hasil">0</div>
+                                    </li>
+                                </ul>
+                        </ul>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- berita -->
+    <div class="w-full sm:w-4/5 mx-auto mb-2 border-b-2 border-green-500">
+        <h2 class="bg-green-500 w-20 pl-3 text-white font-bold">Berita</h2>
+    </div>
+    <section class="container flex justify-center w-full h-1/2">
+        <section class="bg-red-500 w-2/5 h-full mr-3 overflow-hidden hidden sm:block">
+            {% for redaksi in object_list %}
+            {% if redaksi.kategori == 'berita' %}
+            <a class="w-1/2" href="{% url 'redaksi:detail' redaksi.slug %}">
+                <ul class="flex flex-col w-full h-full bg-gray-20 mb-2 border-b relative">
+                        <img src="{{redaksi.gambar.url}}" alt="" class=" h-full object-cover filter brightness-50" width="100%">
+                        <ul class="ml-3 w-full text-white absolute bottom-0 left-20">
+                            <li class="mb-5">{{redaksi.judul}}</li>
+                            <ul class="flex w-full mb-2">
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                            </ul>
+                        </ul>
+                </ul>
+            </a>
+            {% endif %}
+            {% endfor %}    
+        </section>
+        <section class="overflow-auto h-full">
+        {% for redaksi in object_list %}
+        {% if redaksi.kategori == 'berita' %}
+        <a class="w-1/9" href="{% url 'redaksi:detail' redaksi.slug %}">
+            <ul class="flex bg-gray-20 mb-2 border-b">
+                    <img src="{{redaksi.gambar.url}}" alt="" class=" h-full" width="150px">
+                    <ul class="ml-3 w-full">
+                        <li class="mb-5">{{redaksi.judul}}</li>
+                        <ul class="flex w-full mb-2">
+                            <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                            <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                            <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                        </ul>
+                        <ul class="flex">
+                            <li class="text-red-500 mr-1"><a href="{% url 'redaksi:hapus' redaksi.id %}"><i class="fas fa-trash"></i></a></li>
+                            <li class="text-yellow-500"><a href="{% url 'redaksi:ubah' redaksi.id %}"><i class="fas fa-edit"></i></a></li>
+                        </ul>
+                    </ul>
+            </ul>
+        </a>
+        {% endif %}
+        {% endfor %}
+        </section>
+    </section>
+
+    <!-- feature -->
+
+    <div class="w-full sm:w-4/5 mx-auto mb-2 border-b-2 border-green-500 mt-5">
+        <h2 class="bg-green-500 w-20 pl-3 text-white font-bold">Feature</h2>
+    </div>
+    <section class="container flex justify-center w-full h-1/2">
+        <section class="bg-red-500 w-2/5 h-full mr-3 overflow-hidden hidden sm:block">
+            {% for redaksi in object_list %}
+            {% if redaksi.kategori == 'feature' %}
+            <a class="w-1/2" href="{% url 'redaksi:detail' redaksi.slug %}">
+                <ul class="flex flex-col w-full h-full bg-gray-20 mb-2 border-b relative">
+                        <img src="{{redaksi.gambar.url}}" alt="" class=" h-full object-cover filter brightness-50" width="100%">
+                        <ul class="ml-3 w-full text-white absolute bottom-0 left-20">
+                            <li class="mb-5">{{redaksi.judul}}</li>
+                            <ul class="flex w-full mb-2">
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                            </ul>
+                        </ul>
+                </ul>
+            </a>
+            {% endif %}
+            {% endfor %}    
+        </section>
+        <section class="overflow-auto h-full">
+        {% for redaksi in object_list %}
+        {% if redaksi.kategori == 'feature' %}
+        <a class="w-1/9" href="{% url 'redaksi:detail' redaksi.slug %}">
+            <ul class="flex bg-gray-20 mb-2 border-b">
+                    <img src="{{redaksi.gambar.url}}" alt="" class=" h-full" width="150px">
+                    <ul class="ml-3 w-full">
+                        <li class="mb-5">{{redaksi.judul}}</li>
+                        <ul class="flex w-full mb-2">
+                            <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                            <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                            <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                        </ul>
+                        <ul class="flex">
+                            <li class="text-red-500 mr-1"><a href="{% url 'redaksi:hapus' redaksi.id %}"><i class="fas fa-trash"></i></a></li>
+                            <li class="text-yellow-500"><a href="{% url 'redaksi:ubah' redaksi.id %}"><i class="fas fa-edit"></i></a></li>
+                        </ul>
+                    </ul>
+            </ul>
+        </a>
+        {% endif %}
+        {% endfor %}
+        </section>
+    </section>
+
+    <!-- artikel -->
+    <div class="w-full sm:w-4/5 mx-auto mb-2 border-b-2 border-green-500 mt-5">
+        <h2 class="bg-green-500 w-20 pl-3 text-white font-bold">Artikel</h2>
+    </div>
+    <section class="container flex justify-center w-full h-1/2">
+        <section class="bg-red-500 w-2/5 h-full mr-3 overflow-hidden hidden sm:block">
+            {% for redaksi in object_list %}
+            {% if redaksi.kategori == 'artikel' %}
+            <a class="w-1/2" href="{% url 'redaksi:detail' redaksi.slug %}">
+                <ul class="flex flex-col w-full h-full bg-gray-20 mb-2 border-b relative">
+                        <img src="{{redaksi.gambar.url}}" alt="" class=" h-full object-cover filter brightness-50" width="100%">
+                        <ul class="ml-3 w-full text-white absolute bottom-0 left-20">
+                            <li class="mb-5">{{redaksi.judul}}</li>
+                            <ul class="flex w-full mb-2">
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                            </ul>
+                        </ul>
+                </ul>
+            </a>
+            {% endif %}
+            {% endfor %}    
+        </section>
+        <section class="overflow-auto h-full">
+        {% for redaksi in object_list %}
+        {% if redaksi.kategori == 'artikel' %}
+        <a class="w-1/9" href="{% url 'redaksi:detail' redaksi.slug %}">
+            <ul class="flex bg-gray-20 mb-2 border-b">
+                    <img src="{{redaksi.gambar.url}}" alt="" class=" h-full" width="150px">
+                    <ul class="ml-3 w-full">
+                        <li class="mb-5">{{redaksi.judul}}</li>
+                        <ul class="flex w-full mb-2">
+                            <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                            <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                            <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                        </ul>
+                        <ul class="flex">
+                            <li class="text-red-500 mr-1"><a href="{% url 'redaksi:hapus' redaksi.id %}"><i class="fas fa-trash"></i></a></li>
+                            <li class="text-yellow-500"><a href="{% url 'redaksi:ubah' redaksi.id %}"><i class="fas fa-edit"></i></a></li>
+                        </ul>
+                    </ul>
+            </ul>
+        </a>
+        {% endif %}
+        {% endfor %}
+        </section>
+    </section>
+
+    <!-- opini -->
+    <div class="w-full sm:w-4/5 mx-auto mb-2 border-b-2 border-green-500 mt-5">
+        <h2 class="bg-green-500 w-20 pl-3 text-white font-bold">Opini</h2>
+    </div>
+    <section class="container flex justify-center w-full h-1/2">
+        <section class="bg-red-500 w-2/5 h-full mr-3 overflow-hidden hidden sm:block">
+            {% for redaksi in object_list %}
+            {% if redaksi.kategori == 'opini' %}
+            <a class="w-1/2" href="{% url 'redaksi:detail' redaksi.slug %}">
+                <ul class="flex flex-col w-full h-full bg-gray-20 mb-2 border-b relative">
+                        <img src="{{redaksi.gambar.url}}" alt="" class=" h-full object-cover filter brightness-50" width="100%">
+                        <ul class="ml-3 w-full text-white absolute bottom-0 left-20">
+                            <li class="mb-5">{{redaksi.judul}}</li>
+                            <ul class="flex w-full mb-2">
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                                <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                            </ul>
+                        </ul>
+                </ul>
+            </a>
+            {% endif %}
+            {% endfor %}    
+        </section>
+        <section class="overflow-auto h-full">
+        {% for redaksi in object_list %}
+        {% if redaksi.kategori == 'opini' %}
+        <a class="w-1/9" href="{% url 'redaksi:detail' redaksi.slug %}">
+            <ul class="flex bg-gray-20 mb-2 border-b">
+                    <img src="{{redaksi.gambar.url}}" alt="" class=" h-full" width="150px">
+                    <ul class="ml-3 w-full">
+                        <li class="mb-5">{{redaksi.judul}}</li>
+                        <ul class="flex w-full mb-2">
+                            <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-user"></i> {{redaksi.penulis}}</li>
+                            <li class="mr-2 pl-1 pr-1 text-xs"><i class="fas fa-newspaper"></i> {{redaksi.kategori}}</li>
+                            <li class="mr-2 pl-1 pr-1 text-xs"><i class="far fa-calendar-alt"></i> {{redaksi.tanggal}}</li>
+                        </ul>
+                        <ul class="flex">
+                            <li class="text-red-500 mr-1"><a href="{% url 'redaksi:hapus' redaksi.id %}"><i class="fas fa-trash"></i></a></li>
+                            <li class="text-yellow-500"><a href="{% url 'redaksi:ubah' redaksi.id %}"><i class="fas fa-edit"></i></a></li>
+                        </ul>
+                    </ul>
+            </ul>
+        </a>
+        {% endif %}
+        {% endfor %}
+        </section>
+    </section>
+    <script src="{% static 'script/script.js' %}"></script>   
+</body>
+</html>
+{% endblock %}
